@@ -10,13 +10,7 @@ router.get('*', (request, response) => {
   const props = { title: 'Universal React'};
 
   ReactRouter.match({
-    routes: (
-      <ReactRouter.Router history={ReactRouter.browserHistory} >
-        <ReactRouter.Route path='/' component={require('../Component.jsx')}>
-
-        </ReactRouter.Route>
-      </ReactRouter.Router>
-    ),
+    routes: require('./routes.jsx'),
     location: request.url
   }, (error, redirectLocation, renderProps) => {
 
