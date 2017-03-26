@@ -1,9 +1,8 @@
 const React = require('react');
 const Link = require('react-router').Link;
+const connect = require('react-redux').connect;
 
-module.exports = React.createClass({
-
-  displayName: 'Layout', // för react devtools
+const Layout = React.createClass({
 
   _handleClick: function(){
     alert();
@@ -39,3 +38,11 @@ module.exports = React.createClass({
 // vi spara props i globalscope __html: 'window.PROPS=' + JSON.stringify(this.props)
 // PROPS är valfritt namn, kan ha __initialState om man så vill.
 // går att spara props i data attribut men med begränsad storlek
+
+const wrapper = connect(
+  (state) => {
+    return { custom: state };
+  }
+);
+
+module.exports = wrapper(Layout);

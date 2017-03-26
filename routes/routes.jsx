@@ -21,7 +21,7 @@ if (typeof window === 'object'){
 
 
 module.exports = (
-  <Router history={browserHistory} createElement={createElement} >
+  <Router history={browserHistory} >
     <Route path='/' component={Layout} >
       <IndexRoute component={Index} />
       <Route path='about' component={About} />

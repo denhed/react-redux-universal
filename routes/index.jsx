@@ -3,11 +3,22 @@ const router = require('express').Router();
 const React = require('react');
 const ReactDOMServer = require('react-dom/server');
 const ReactRouter = require('react-router');
+const Redux = require('redux');
+const Provider = require('react-redux').Provider;
+
+
+//basic reducer
+function reducer(state) { return state; }
+
 
 
 router.get('*', (request, response) => {
 
-  const props = { title: 'Universal React'};
+  const initialState = { title: 'Universal React'};
+  // props är initial values.
+  const store = Redux.createStore(reducer, initialState);
+
+
 
   ReactRouter.match({
     routes: require('./routes.jsx'),
@@ -16,11 +27,9 @@ router.get('*', (request, response) => {
 
     if(renderProps) {
       let html = ReactDOMServer.renderToString(
-        <ReactRouter.RouterContext {...renderProps}
-          createElement={(Component, renderProps) => {
-            return <Component {...renderProps} custom={props} />
-          }}
-        />
+        <Provider store={store} >
+          <ReactRouter.RouterContext {...renderProps}/>
+        </Provider>
       );
       response.send(html);
     } else {
