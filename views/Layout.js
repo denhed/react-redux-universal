@@ -1,14 +1,18 @@
-const React = require('react');
-const Link = require('react-router').Link;
-const connect = require('react-redux').connect;
+import React, {Component} from 'react';
+import {Link} from 'react-router';
+import {connect} from 'react-redux';
 
-const Layout = React.createClass({
+class Layout extends Component {
+  constructor(props){
+    super(props);
 
-  _handleClick: function(){
+    console.log(this.props.custom)
+  }
+  _handleClick() {
     alert();
-  },
+  }
 
-  render: function(){
+  render() {
     const custom = this.props.custom;
     return (
       <html>
@@ -33,16 +37,16 @@ const Layout = React.createClass({
       </html>
     );
   }
-});
+}
 
 // vi spara props i globalscope __html: 'window.PROPS=' + JSON.stringify(this.props)
 // PROPS är valfritt namn, kan ha __initialState om man så vill.
 // går att spara props i data attribut men med begränsad storlek
 
-const wrapper = connect(
-  (state) => {
-    return { custom: state };
-  }
-);
+function mapStateToProps(state, ownProps) {
+  return {
+    custom: state
+  };
+}
 
-module.exports = wrapper(Layout);
+export default connect(mapStateToProps, null)(Layout);

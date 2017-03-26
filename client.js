@@ -2,9 +2,9 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 const Redux = require('redux');
 const Provider = require('react-redux').Provider;
-const routes = require('./routes/routes.jsx');
+const routes = require('./routes/routes.js');
 
-function reducer(state) { return state; }
+function reducer(state) {return state; }
 
 const store = Redux.createStore(reducer, window.PROPS);
 

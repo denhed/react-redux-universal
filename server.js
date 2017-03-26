@@ -1,14 +1,13 @@
-// för att kunna läsa Components jsx
+// för att kunna läsa Components jsx, samt es6 import
 require('babel-register')({
-  presets: ['react']
+  presets: ['react', 'es2015']
 });
-
 const express = require('express');
 const app = express();
 
 // static files in public directory
 app.use(express.static('public'));
-app.use(require('./routes/index.jsx'));
+app.use(require('./routes/index.js'));
 
 
 const PORT = 3000;

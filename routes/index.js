@@ -1,34 +1,27 @@
 //serverside
 const router = require('express').Router();
-const React = require('react');
-const ReactDOMServer = require('react-dom/server');
-const ReactRouter = require('react-router');
-const Redux = require('redux');
-const Provider = require('react-redux').Provider;
-
+import React from 'react';
+import ReactDOMServer from 'react-dom/server';
+import {Router, RouterContext, match} from 'react-router';
+import {createStore} from 'redux';
+import { Provider } from 'react-redux';
 
 //basic reducer
 function reducer(state) { return state; }
 
-
-
 router.get('*', (request, response) => {
-
   const initialState = { title: 'Universal React'};
-  // props är initial values.
-  const store = Redux.createStore(reducer, initialState);
+  const store = createStore(reducer, initialState);
 
-
-
-  ReactRouter.match({
-    routes: require('./routes.jsx'),
+  match({
+    routes: require('./routes.js'),
     location: request.url
   }, (error, redirectLocation, renderProps) => {
 
     if(renderProps) {
       let html = ReactDOMServer.renderToString(
         <Provider store={store} >
-          <ReactRouter.RouterContext {...renderProps}/>
+          <RouterContext {...renderProps}/>
         </Provider>
       );
       response.send(html);
