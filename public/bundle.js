@@ -9442,65 +9442,7 @@ var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
 module.exports = ReactPropTypesSecret;
 
 /***/ }),
-/* 80 */
-/***/ (function(module, exports, __webpack_require__) {
-
-const React = __webpack_require__(52);
-
-module.exports = React.createClass({
-  displayName: 'exports',
-
-
-  _handleClick: function () {
-    alert();
-  },
-
-  render: function () {
-    return React.createElement(
-      'html',
-      null,
-      React.createElement(
-        'head',
-        null,
-        React.createElement(
-          'title',
-          null,
-          this.props.title
-        ),
-        React.createElement('link', { rel: 'stylesheet', href: '/style.css' })
-      ),
-      React.createElement(
-        'body',
-        null,
-        React.createElement(
-          'h1',
-          null,
-          this.props.title
-        ),
-        React.createElement(
-          'p',
-          null,
-          'Isn\'t server-side rendering remarkable?'
-        ),
-        React.createElement(
-          'button',
-          { onClick: this._handleClick },
-          'Click Me'
-        ),
-        React.createElement('script', { dangerouslySetInnerHTML: {
-            __html: 'window.PROPS=' + JSON.stringify(this.props)
-          } }),
-        React.createElement('script', { src: '/bundle.js' })
-      )
-    );
-  }
-});
-
-// vi spara props i globalscope __html: 'window.PROPS=' + JSON.stringify(this.props)
-// PROPS är valfritt namn, kan ha __initialState om man så vill.
-// går att spara props i data attribut men med begränsad storlek
-
-/***/ }),
+/* 80 */,
 /* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24289,21 +24231,32 @@ const React = __webpack_require__(52);
 const ReactRouter = __webpack_require__(224);
 const Router = ReactRouter.Router;
 const Route = ReactRouter.Route;
+const IndexRoute = ReactRouter.IndexRoute;
 const browserHistory = ReactRouter.browserHistory;
+
+//routes components
+const Layout = __webpack_require__(238);
+const Index = __webpack_require__(237);
+const About = __webpack_require__(236);
 
 // denna fil delas av både client och server.
 
-// vi kollar vi vi befinner oss i browsern.
+// vi kollar vi befinner oss i browsern.
 if (typeof window === 'object') {
   function createElement(Component, props) {
-    return React.createElement(Component, _extends({}, props, window.PROPS));
+    return React.createElement(Component, _extends({}, props, { custom: window.PROPS }));
   }
 }
 
 module.exports = React.createElement(
   Router,
   { history: browserHistory, createElement: createElement },
-  React.createElement(Route, { path: '/', component: __webpack_require__(80) })
+  React.createElement(
+    Route,
+    { path: '/', component: Layout },
+    React.createElement(IndexRoute, { component: Index }),
+    React.createElement(Route, { path: 'about', component: About })
+  )
 );
 
 /***/ }),
@@ -26631,6 +26584,138 @@ module.exports = function (str) {
 	});
 };
 
+
+/***/ }),
+/* 236 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const React = __webpack_require__(52);
+
+module.exports = React.createClass({
+
+  displayName: 'About', // för react devtools
+
+  render: function () {
+    return React.createElement(
+      'p',
+      null,
+      'Current: ',
+      React.createElement(
+        'strong',
+        null,
+        'About'
+      )
+    );
+  }
+});
+
+/***/ }),
+/* 237 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const React = __webpack_require__(52);
+
+module.exports = React.createClass({
+
+  displayName: 'Index', // för react devtools
+
+  render: function () {
+    return React.createElement(
+      'p',
+      null,
+      'Current: ',
+      React.createElement(
+        'strong',
+        null,
+        'Index'
+      )
+    );
+  }
+});
+
+/***/ }),
+/* 238 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const React = __webpack_require__(52);
+const Link = __webpack_require__(224).Link;
+
+module.exports = React.createClass({
+
+  displayName: 'Layout', // för react devtools
+
+  _handleClick: function () {
+    alert();
+  },
+
+  render: function () {
+    const custom = this.props.custom;
+    return React.createElement(
+      'html',
+      null,
+      React.createElement(
+        'head',
+        null,
+        React.createElement(
+          'title',
+          null,
+          custom.title
+        ),
+        React.createElement('link', { rel: 'stylesheet', href: '/style.css' })
+      ),
+      React.createElement(
+        'body',
+        null,
+        React.createElement(
+          'h1',
+          null,
+          custom.title
+        ),
+        React.createElement(
+          'p',
+          null,
+          'Isn\'t server-side rendering remarkable?'
+        ),
+        React.createElement(
+          'button',
+          { onClick: this._handleClick },
+          'Click Me'
+        ),
+        this.props.children,
+        React.createElement(
+          'ul',
+          null,
+          React.createElement(
+            'li',
+            null,
+            React.createElement(
+              Link,
+              { to: '/' },
+              'Index'
+            )
+          ),
+          React.createElement(
+            'li',
+            null,
+            React.createElement(
+              Link,
+              { to: 'about' },
+              'About'
+            )
+          )
+        ),
+        React.createElement('script', { dangerouslySetInnerHTML: {
+            __html: 'window.PROPS=' + JSON.stringify(custom)
+          } }),
+        React.createElement('script', { src: '/bundle.js' })
+      )
+    );
+  }
+});
+
+// vi spara props i globalscope __html: 'window.PROPS=' + JSON.stringify(this.props)
+// PROPS är valfritt namn, kan ha __initialState om man så vill.
+// går att spara props i data attribut men med begränsad storlek
 
 /***/ })
 /******/ ]);

@@ -18,7 +18,7 @@ router.get('*', (request, response) => {
       let html = ReactDOMServer.renderToString(
         <ReactRouter.RouterContext {...renderProps}
           createElement={(Component, renderProps) => {
-            return <Component {...renderProps} {...props} />
+            return <Component {...renderProps} custom={props} />
           }}
         />
       );
